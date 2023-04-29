@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>ATM</title>
+</head>
+<style>
+    html {
+        background-color: rgb(255, 255, 255);
+    }
+
+    body {
+        position: relative;
+        background-color: #ffd900;
+        padding: 30px;
+        border: 10px solid;
+        border-color: rgb(255, 0, 0);
+        margin: 0 auto;
+        border-radius: 10px;
+        margin-top: 200px;
+        max-width: 350px;
+        font-family: Verdana;
+        max-height: 500px;
+        text-align: center;
+
+    }
+
+    input {
+        text-align: center;
+        background-color: rgb(255, 255, 255);
+        border-color: azure;
+        border-radius: 50px;
+    }
+
+    button {
+        min-width: 80px;
+        background-color: rgb(255, 255, 255);
+        border-color: azure;
+    }
+
+    select {
+        background-color: rgb(255, 255, 255);
+    }
+
+    .overlay {
+        position: relative;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+
+        z-index: 2;
+    }
+
+    .confirm-box {
+        position: relative;
+        width: 50%;
+        height: 50%;
+        top: 25%;
+        left: 25%;
+        text-align: center;
+    }
+
+    .close {
+        cursor: pointer;
+    }
+</style>
+
+<body>
+    <div>
+        <h1>ATM</h1>
+        <p>Current Balance: <span id="balance">5000.00</span></p>
+        <label for="amount">Enter Amount:</label>
+        <input type="number" id="amount" name="amount" min="1">
+        <br><br>
+        <button onclick="deposit()" id="1">Deposit</button>
+        <button onclick="withdraw()" id="2">Withdraw</button>
+        <button onclick="checkBalance()" id="3">Check Balance</button>
+        <br><br>
+        <br><br>
+    </div>
+
+    <div class="overlay" id="overlay" hidden>
+        <div class="confirm-box">
+            <div onclick="closeConfirmBox()" class="close">&#10006;</div>
+            <h2>Confirmation</h2>
+            <p>Do you want to make another transaction?</p>
+            <button onclick="isConfirm(true)">Yes</button>
+            <button onclick="isConfirm(false)">No</button>
+        </div>
+    </div>
+
+    <script>
+
+        let balance = 5000.00;
+        function showConfirmBox() {
+            document.getElementById("overlay").hidden = false;
+        }
+        function closeConfirmBox() {
+            document.getElementById("overlay").hidden = true;
+        }
+
+        function isConfirm(answer) {
+            if (answer == true) {
+                closeConfirmBox();
+                for (i = 0; i <= 3; i++) {
+                    if (i == 1) {
+                        document.getElementById("1").style.display = 'inline';
+                    }
+                    if (i == 2) {
+                        document.getElementById("2").style.display = 'inline';
+                    }
+                    if (i == 3) {
+                        document.getElementById("3").style.display = 'inline';
+                    }
+                }
+
+            } else {
+                window.close();
+            }
+
+        }
+        function deposit() {
+
+            let depositAmount = document.getElementById("amount").value;
+
+
+            if (isNaN(depositAmount) || depositAmount <= 0) {
+                alert("Please enter a valid amount to deposit.");
+                return;
+            }
+
+
+            depositAmount = parseFloat(depositAmount);
+
+
+            balance += depositAmount;
+
+
+            document.getElementById("balance").innerHTML = balance.toFixed(2);
+
+            document.getElementById("amount").value = "";
+
+            alert("Deposit of $" + depositAmount.toFixed(2) + " successful. Your new balance is $" + balance.toFixed(2));
+
+            for (i = 0; i <= 3; i++) {
+                if (i == 1) {
+                    document.getElementById("1").style.display = 'none';
+                }
+                if (i == 2) {
+                    document.getElementById("2").style.display = 'none';
+                }
+                if (i == 3) {
+                    document.getElementById("3").style.display = 'none';
+                }
+            }
+
+            showConfirmBox();
+        }
+
+        function withdraw() {
+
+            let withdrawAmount = document.getElementById("amount").value;
+
+
+            if (isNaN(withdrawAmount) || withdrawAmount <= 0) {
+                alert("Please enter a valid amount to withdraw.");
+                return;
+            }
+
+
+            withdrawAmount = parseFloat(withdrawAmount);
+
+
+            if (withdrawAmount > balance) {
+                alert("Insufficient funds. Please enter a lower amount to withdraw.");
+                return;
+            }
+
+
+            balance -= withdrawAmount;
+
+
+            document.getElementById("balance").innerHTML = balance.toFixed(2);
+
+
+            document.getElementById("amount").value = "";
+
+            alert("Withdrawal of $" + withdrawAmount.toFixed(2) + " successful. Your new balance is $" + balance.toFixed(2));
+
+            for (i = 0; i <= 3; i++) {
+                if (i == 1) {
+                    document.getElementById("1").style.display = 'none';
+                }
+                if (i == 2) {
+                    document.getElementById("2").style.display = 'none';
+                }
+                if (i == 3) {
+                    document.getElementById("3").style.display = 'none';
+                }
+            }
+
+            showConfirmBox();
+        }
+
+        function checkBalance() {
+            alert("Your current balance is " + balance.toFixed(2));
+
+            for (i = 0; i <= 3; i++) {
+                if (i == 1) {
+                    document.getElementById("1").style.display = 'none';
+                }
+                if (i == 2) {
+                    document.getElementById("2").style.display = 'none';
+                }
+                if (i == 3) {
+                    document.getElementById("3").style.display = 'none';
+                }
+            }
+
+            showConfirmBox();
+        }
+    </script>
+
+</body>
+
+</html>
